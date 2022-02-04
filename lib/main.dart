@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp_estrutura_inicial/perguntas.dart';
 
 void main() => runApp(QuizApp());
 
@@ -24,16 +25,24 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Widget> marcadorDePontos = [
-    const Icon(
-      Icons.check,
-      color: Colors.green,
+  List<Widget> marcadorDePontos = List.empty();
+
+  List<Pergunta> perguntas = [
+    Pergunta(
+      q: 'O metrô é um dos meios de transporte mais seguros do mundo',
+      r: true,
     ),
-    const Icon(
-      Icons.close,
-      color: Colors.red,
-    )
+    Pergunta(
+      q: 'A culinária brasileira é uma das melhores do mundo.',
+      r: true,
+    ),
+    Pergunta(
+      q: 'Vacas podem voar, assim como peixes utilizam os pés para andar.',
+      r: true,
+    ),
   ];
+
+  int numeroDaQuestaoAtual = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'As perguntas serão exibidas aqui.',
+                perguntas[numeroDaQuestaoAtual].questao,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -72,12 +81,17 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //O usuário clica no botão verdadeiro.
+                bool respostaCorreta =
+                    perguntas[numeroDaQuestaoAtual].respostaDaQuestao;
+
+                if (respostaCorreta) {
+                  print("usuário acertou");
+                } else {
+                  print("Usuário errou");
+                }
+
                 setState(() {
-                  marcadorDePontos.add(Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ));
+                  numeroDaQuestaoAtual++;
                 });
               },
             ),
@@ -97,7 +111,18 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //O usuário clica no botão falso.
+                bool respostaCorreta =
+                    perguntas[numeroDaQuestaoAtual].respostaDaQuestao;
+
+                if (!respostaCorreta) {
+                  print("usuário acertou");
+                } else {
+                  print("Usuário errou");
+                }
+
+                setState(() {
+                  numeroDaQuestaoAtual++;
+                });
               },
             ),
           ),
@@ -109,9 +134,3 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
-/*
-pergunta1: 'O metrô é um dos meios de transporte mais seguros do mundo', verdadeiro,
-pergunta2: 'A culinária brasileira é uma das melhores do mundo.', verdadeiro,
-pergunta3: 'Vacas podem voar, assim como peixes utilizam os pés para andar.', falso,
-*/
